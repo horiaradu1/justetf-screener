@@ -4,7 +4,7 @@ from typing import List, Dict
 if __name__ == "__main__":
     
     out = List[Dict[str, str]]
-    out = make_request()
+    out = make_request("TEST")
 
     # print(out[0])
     print(len(out))

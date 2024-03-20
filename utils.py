@@ -8,7 +8,7 @@ InstrumentType = Optional[Literal["ETC", "ETF", "ETN"]]
 
 URL = "https://www.justetf.com/servlet/etfs-table"
 
-BASE_PARAMS = {
+PARAMS = {
     "draw": 1,
     "start": 0,
     "length": -1,
@@ -17,19 +17,16 @@ BASE_PARAMS = {
     "universeType": "private",
 }
 
-def make_request()-> List[Dict[str, str]]:
+def make_request(input_query: str)-> List[Dict[str, str]]:
 
-    query = build_query()
+    query = build_query(input_query)
 
     print("Query: " + str(query))
 
 
     response = requests.post(
         URL,
-        {
-            **BASE_PARAMS,
-            "etfsParams": query,
-        },
+        query
     )
 
 
@@ -39,7 +36,10 @@ def make_request()-> List[Dict[str, str]]:
 
 def build_query() -> str:
     params = "groupField=none&ls=any"
-    return params
+    return {
+            **PARAMS,
+            "etfsParams": params,
+        }
 
 def write_csv(data: List[Dict[str,str]], file_path: str):
     with open(file_path, mode='w', newline='') as file:
